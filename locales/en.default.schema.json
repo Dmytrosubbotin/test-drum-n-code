@@ -1957,6 +1957,29 @@
             }
           }
         },
+        "upsell": {
+          "name": "Upsell products",
+          "settings": {
+            "title": {
+              "label": "Title"
+            },
+            "show_buy_now": {
+              "label": "Show Buy Now"
+            },
+            "buy_now_label": {
+              "label": "Buy button label"
+            },
+            "see_details_label": {
+              "label": "See details button label"
+            },
+            "paragraph": {
+              "content": "To show upsell products, add them in the product Upsell products metafield"
+            },
+            "products_limit": {
+              "label": "Products limit"
+            }
+          }
+        },
         "title": {
           "name": "Title"
         },

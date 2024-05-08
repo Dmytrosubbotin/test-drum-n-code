@@ -1,0 +1,123 @@
+.cart-drawer {
+  .upsell-badge {
+    margin: .5em 0;
+    display: inline-block;
+  }
+}
+
+upsell-products {
+  display: block;
+  --upsell-gap: 20px;
+  --upsell-items-visible: 3;
+  --upsell-gap-visible-count: calc(var(--upsell-items-visible) - 1);
+
+  .h3 {
+    margin-top: 0;
+  }
+
+  @media screen and (min-width: 750px) {
+    .upsell__gallery-wrapper.has-navigation {
+      position: relative;
+    }
+  }
+
+  .upsell__gallery {
+    display: flex;
+    gap: var(--upsell-gap);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+
+    .upsell__item {
+      flex: 0 0 calc(100% / var(--upsell-items-visible) - var(--upsell-gap) * var(--upsell-gap-visible-count) / var(--upsell-items-visible));
+      scroll-snap-align: start;
+      @media screen and (max-width: 749px) {
+        --upsell-items-visible: 2;
+      }
+
+      img {
+        aspect-ratio: 4 / 5;
+        object-fit: cover;
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      a {
+        text-decoration: none;
+      }
+
+      .h4 {
+        margin: .5em 0;
+        line-height: 1.2em;
+      }
+
+      .price {
+        font-size: 1.4rem;
+        margin-bottom: .75em;
+      }
+
+      .loading__spinner {
+        padding-top: 0;
+      }
+
+      .button {
+        padding: 0 5px;
+        min-width: 0;
+        width: 100%;
+      }
+    }
+  }
+}
+
+.upsell__gallery-button {
+  color: white;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: black;
+  border-radius: 15px;
+  transition: all .3s ease-in-out;
+  position: absolute;
+  top: 50%;
+  margin-top: -15px;
+  @media screen and (max-width: 749px) {
+    display: none;
+  }
+
+  &.upsell__gallery-button--prev {
+    left: -30px;
+  }
+
+  &.upsell__gallery-button--next {
+    right: -30px;
+  }
+}
+
+.upsell__gallery-button:not([disabled]):hover {
+  background-color: rgba(0, 0, 0, .8);
+}
+
+.upsell__gallery-button .icon {
+  height: .9rem;
+}
+
+.upsell__gallery-button[disabled] {
+  background-color: rgba(0, 0, 0, .5);
+  cursor: not-allowed;
+}
+
+.upsell__gallery-button--next .icon {
+  transform: rotate(-90deg);
+}
+
+.upsell__gallery-button--prev .icon {
+  transform: rotate(90deg);
+}

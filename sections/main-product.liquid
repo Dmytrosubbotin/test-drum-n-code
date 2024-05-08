@@ -640,6 +640,11 @@
                 </product-recommendations>
               {%- when 'icon-with-text' -%}
                 {% render 'icon-with-text', block: block %}
+              {%- when 'upsell' -%}
+                {%- assign upsell_products = product.metafields.custom.upsell_products.value %}
+                {%- if upsell_products != blank -%}
+                  {% render 'upsell-products', products: upsell_products, settings: block.settings %}
+                {%- endif -%}
             {%- endcase -%}
           {%- endfor -%}
           <a href="{{ product.url }}" class="link product__view-details animate-arrow">
@@ -753,6 +758,69 @@
   "blocks": [
     {
       "type": "@app"
+    },
+    {
+      "type": "upsell",
+      "name": "t:sections.main-product.blocks.upsell.name",
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "t:sections.main-product.blocks.upsell.settings.paragraph.content"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "default": "These looks good together!",
+          "label": "t:sections.main-product.blocks.upsell.settings.title.label"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_buy_now",
+          "label": "t:sections.main-product.blocks.upsell.settings.show_buy_now.label",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "buy_now_label",
+          "default": "Buy Now",
+          "label": "t:sections.main-product.blocks.upsell.settings.buy_now_label.label"
+        },
+        {
+          "type": "text",
+          "id": "see_details_label",
+          "default": "See details",
+          "label": "t:sections.main-product.blocks.upsell.settings.see_details_label.label"
+        },
+        {
+          "type": "range",
+          "id": "products_limit",
+          "min": 3,
+          "max": 10,
+          "step": 1,
+          "default": 5,
+          "label": "t:sections.main-product.blocks.upsell.settings.products_limit.label"
+        },
+        {
+          "type": "range",
+          "id": "upsell_padding_top",
+          "min": 0,
+          "max": 100,
+          "step": 4,
+          "unit": "px",
+          "label": "t:sections.all.padding.padding_top",
+          "default": 20
+        },
+        {
+          "type": "range",
+          "id": "upsell_padding_bottom",
+          "min": 0,
+          "max": 100,
+          "step": 4,
+          "unit": "px",
+          "label": "t:sections.all.padding.padding_bottom",
+          "default": 20
+        }
+      ]
     },
     {
       "type": "text",

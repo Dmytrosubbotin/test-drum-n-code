@@ -39,6 +39,18 @@
             "show_gift_card_recipient": true
           }
         },
+        "upsell_Hfmamp": {
+          "type": "upsell",
+          "settings": {
+            "title": "These looks good together!",
+            "show_buy_now": true,
+            "buy_now_label": "Buy Now",
+            "see_details_label": "See details",
+            "products_limit": 5,
+            "upsell_padding_top": 20,
+            "upsell_padding_bottom": 20
+          }
+        },
         "description": {
           "type": "description",
           "settings": {
@@ -58,6 +70,7 @@
         "variant_picker",
         "quantity_selector",
         "buy_buttons",
+        "upsell_Hfmamp",
         "description",
         "share"
       ],

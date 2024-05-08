@@ -1,0 +1,123 @@
+{% comment %}
+  Renders a list of upsell products
+
+  Accepts:
+  - products: {Array} Array of products
+  - settings: {Object} Block settings
+
+  Usage:
+  {% render 'upsell-products', products: products, settings: settings %}
+{% endcomment %}
+
+{{ 'component-product-upsell.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'product-upsell.js' | asset_url }}" defer="defer"></script>
+
+{%- style -%}
+  upsell-products {
+    padding-top: {{ settings.upsell_padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ settings.upsell_padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  @media screen and (min-width: 750px) {
+    upsell-products {
+      padding-top: {{ settings.upsell_padding_top }}px;
+      padding-bottom: {{ settings.upsell_padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+
+
+{%- liquid
+  assign product_upsell_size = 0
+  for product in products
+    assign product_upsell_size = product_upsell_size | plus: 1
+  endfor
+  assign has_navigation = false
+  if product_upsell_size > 3 and settings.products_limit > 3
+    assign has_navigation = true
+  endif
+-%}
+
+<upsell-products>
+  {%- if settings.title != blank -%}
+    <h2 class="h3">{{ settings.title }}</h2>
+  {%- endif -%}
+  <div class="upsell__gallery-wrapper{% if has_navigation %} has-navigation{% endif %}">
+    {%- if has_navigation -%}
+      <button
+        type="button"
+        class="upsell__gallery-button upsell__gallery-button--prev"
+        name="previous"
+        aria-label="{{ 'general.slider.previous_slide' | t }}"
+      >
+        {% render 'icon-caret' %}
+      </button>
+      <button
+        type="button"
+        class="upsell__gallery-button upsell__gallery-button--next"
+        name="next"
+        aria-label="{{ 'general.slider.next_slide' | t }}"
+      >
+        {% render 'icon-caret' %}
+      </button>
+    {%- endif -%}
+    <div class="upsell__gallery">
+      {%- for product in products limit: settings.products_limit -%}
+      <div class="upsell__item">
+        {%- assign image = product.featured_image -%}
+        <a href="{{ product.url }}" target="_blank" title="{{ product.title }}">
+          <img
+            src="{{ image | image_url: width: 140 }}"
+            alt="{{ image.alt | escape }}"
+            width="70"
+            height="{{ 70 | divided_by: image.aspect_ratio | ceil }}"
+            loading="lazy"
+          >
+          <div class="h4">{{ product.title }}</div>
+        </a>
+        <div class="price">
+          {{ product.first_available_variant.price | money_with_currency }}
+        </div>
+        {%- if settings.show_buy_now -%}
+          {%- form 'product',
+            product,
+            id: product.id,
+            class: 'form',
+            novalidate: 'novalidate',
+            data-type: 'add-to-cart-form'
+          -%}
+            <input
+              type="hidden"
+              name="id"
+              value="{{ product.selected_or_first_available_variant.id }}"
+              class="product-variant-id"
+              {% if product.selected_or_first_available_variant.available == false %}
+                disabled
+              {% endif %}
+            >
+            <input
+              type="hidden"
+              name="properties[upsell]"
+              value="true"
+            >
+            <button
+              type="button"
+              class="button upsell__add-to-cart"
+              {% if card_product.selected_or_first_available_variant.available == false %}
+                disabled
+              {% endif %}
+            >
+              <span>{{ settings.buy_now_label }}</span>
+              {%- render 'loading-spinner' -%}
+            </button>
+          {%- endform -%}
+        {%- else -%}
+          <a href="{{ product.url }}" target="_blank" class="button" title="{{ product.title }}">
+            {{ settings.see_details_label }}
+          </a>
+        {%- endif -%}
+      </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</upsell-products>

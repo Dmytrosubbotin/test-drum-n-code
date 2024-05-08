@@ -2889,6 +2889,15 @@ details-disclosure > details {
   word-break: break-word;
 }
 
+.upsell-badge {
+  border: 1px solid black;
+  padding: 3px 8px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 20px;
+  text-transform: uppercase;
+}
+
 .gradient {
   background: rgb(var(--color-background));
   background: var(--gradient-background);
